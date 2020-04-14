@@ -32,19 +32,20 @@ def decode(codes, block, prop):
 
     return decoded
 
+encoded_path = input('Please Enter encoded file path : ')
+prop_path = input('Please Enter probability file path : ')
+block_size = int(input('Please Enter block size : '))
+n = int(input('Please Enter image Width : '))
+m = int(input('Please Enter image Heigth : '))
+img_path = input('Please Enter output image path : ')
 
-#encoded = np.load('/home/fuboki/Downloads/compressed.npy')
-encoded = np.load('encoded.npy')
+
+encoded = np.load(encoded_path)
 
 print(encoded)
 print(encoded.size)
 
-n = 479
-m = 484
-
-block_size = 4
-
-prop = np.load('prop.npy')
+prop = np.load(prop_path)
 
 # print(prop)
 
@@ -58,4 +59,4 @@ out = np.resize(decoded, (m, n))
 print(out)
 print(out.size)
 
-cv2.imwrite('img.png', out)
+cv2.imwrite(img_path, out)
