@@ -10,20 +10,20 @@ import numpy as np
 import cv2
 
 def encode(codes, block, prop):
-    encoded = np.zeros(codes.size // block, dtype=np.float16)
-    fx = np.zeros(257, dtype=np.float16)
+    encoded = np.zeros(codes.size // block, dtype=np.float64)
+    fx = np.zeros(257, dtype=np.float64)
     fx[0] = 0
     for i in range(1, 257):
         fx[i] = fx[i - 1] + prop[i - 1] 
     
     for start in range(len(encoded)):
-        l = fx[int(codes[start * block])]
-        u = fx[int(codes[start * block]) + 1]
+        l = 0
+        u = 1
         
-        for i in range(1, block):
+        for i in range(block):
             dif = u - l
-            l = l + dif * fx[int(codes[i + start * block])]
             u = l + dif * fx[int(codes[i + start * block]) + 1]
+            l = l + dif * fx[int(codes[i + start * block])] 
            
         encoded[start] = (u + l) / 2
         
@@ -43,7 +43,7 @@ arr = arr.flatten()
 print(arr)
 
 # prop_list
-prop_list = np.zeros(256, dtype=np.float16)
+prop_list = np.zeros(256, dtype=np.float64)
 
 for i in range(256):
     count = (arr == i).sum()

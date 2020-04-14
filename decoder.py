@@ -22,7 +22,12 @@ def decode(codes, block, prop):
         u = 1
         for i in range(block):  
             t = (codes[code] - l) / (u - l)
-            c = bisect.bisect(fx, t)
+            if t > 1:
+                continue
+            c = bisect.bisect_left(fx, t)
+            dif = u - l
+            u = l + dif * fx[c]
+            l = l + dif * fx[c - 1]
             decoded[code * block + i] = c
 
     return decoded
